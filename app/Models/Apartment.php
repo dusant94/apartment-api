@@ -31,7 +31,7 @@ class Apartment extends Model
         }'
     ];
 
-    public $sortableProperties = ['size', 'balcony_size'];
+    public $properties_fields = ['size', 'balcony_size'];
 
     public function category()
     {
@@ -43,32 +43,52 @@ class Apartment extends Model
         $this->attributes['name'] = $value;
         $slug = Str::slug($value);
         $i = 1;
-        while(static::where('slug', $slug)->exists()){
+        while (static::where('slug', $slug)->exists()) {
             $slug = $slug . "_" . $i;
         }
-        $this->attributes['slug'] = $slug ;
+        $this->attributes['slug'] = $slug;
     }
 
-    public function scopeSortAndOrderBy($query, $request){
+    public function scopeSortAndOrderBy($query, $request)
+    {
 
-        if ($request->has('sort')){
+        if ($request->has('sort')) {
             $sorts = explode(',', $request->sort);
+            $sortableFields = $this->fillable;
+            array_push($sortableFields, 'id');
             foreach ($sorts as $sort) {
                 $params = explode(':', $sort);
-                $sortableFields = $this->fillable;
-                array_push($sortableFields, 'id');
-                if(in_array($params[0], $sortableFields)){
+                if (in_array($params[0], $sortableFields)) {
                     $query->orderBy($params[0], $params[1]);
                 }
-                if(in_array($params[0], $this->sortableProperties)){
-                    $query->orderByRaw("cast(properties->'$." . $params[0] ."' as float)". $params[1]);
+                if (in_array($params[0], $this->properties_fields)) {
+                    $query->orderByRaw("cast(properties->'$." . $params[0] . "' as float)" . $params[1]);
                 }
-             }
+            }
         }
     }
 
-    public function scopeFilterBy($query, $request){
-
+    public function scopeFilterBy($query, $request)
+    {
+        if ($request->has('filters')) {
+            $filters = explode(',', $request->filters);
+            foreach ($filters as $filter) {
+                $params = explode(':', $filter);
+                if (in_array($params[0], $this->fillable)) {
+                    if (array_key_exists(2, $params)) {
+                        $query->where($params[0], $params[2], $params[1]);
+                    } else {
+                        $query->where($params[0], $params[1]);
+                    }
+                }
+                if (in_array($params[0], $this->properties_fields)) {
+                    if (array_key_exists(2, $params)) {
+                        $query->where('properties->' . $params[0], $params[2], $params[1]);
+                    } else {
+                        $query->where('properties->' . $params[0], $params[1]);
+                    }
+                }
+            }
+        }
     }
-
 }

@@ -19,9 +19,14 @@ class ApartmentController extends Controller
      */
     public function index(Request $request)
     {
-        $apartments = Apartment::SortAndOrderBy($request)->paginate(10);
-        $resource = new ApartmentCollection($apartments);
-        return $resource->response()->setStatusCode(Response::HTTP_OK);
+        try {
+            $apartments = Apartment::SortAndOrderBy($request)->FilterBy($request)->paginate(10);
+            $resource = new ApartmentCollection($apartments);
+            return $resource->response()->setStatusCode(Response::HTTP_OK);
+        } catch (Exception $e) {
+            dd($e);
+            return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -68,6 +73,11 @@ class ApartmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $apartment = Apartment::findOrFail($id)->delete();
+            return response()->json($apartment, Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

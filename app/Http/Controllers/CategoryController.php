@@ -69,6 +69,11 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $category = Category::findOrFail($id)->delete();
+            return response()->json($category, Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
