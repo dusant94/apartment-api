@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryCreateRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -23,7 +25,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryCreateRequest $request)
     {
         //
     }
@@ -36,7 +38,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryUpdateRequest $request, $id)
     {
         //
     }

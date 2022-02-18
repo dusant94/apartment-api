@@ -13,7 +13,7 @@ class ApartmentCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,22 @@ class ApartmentCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:50'],
+            'price' => ['required', 'numeric'],
+            'currency' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'properties.size' => ['nullable', 'numeric'],
+            'properties.balcony_size' => ['nullable', 'numeric'],
+            'properties.location' => ['nullable', 'string'],
+            'category_id' => ['required', 'integer'],
         ];
+    }
+
+    public function all($keys = null)
+    {
+        $data = parent::all();
+        $data['properties'] = json_decode($data['properties'], true);
+
+        return $data;
     }
 }

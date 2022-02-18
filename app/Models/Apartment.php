@@ -29,4 +29,9 @@ class Apartment extends Model
             "location": ""
         }'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

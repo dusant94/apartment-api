@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ApartmentCreateRequest;
+use App\Http\Requests\ApartmentUpdateRequest;
 use Illuminate\Http\Request;
 
 class ApartmentController extends Controller
@@ -22,7 +24,7 @@ class ApartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ApartmentCreateRequest $request)
     {
         //
     }
@@ -35,7 +37,7 @@ class ApartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ApartmentUpdateRequest $request, $id)
     {
         //
     }
