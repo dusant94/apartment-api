@@ -31,6 +31,8 @@ class Apartment extends Model
         }'
     ];
 
+    public $sortableProperties = ['size', 'balcony_size'];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -46,4 +48,28 @@ class Apartment extends Model
         }
         $this->attributes['slug'] = $slug ;
     }
+
+    public function scopeSortAndOrderBy($query, $request){
+
+        if ($request->has('sort')){
+            $sorts = explode(',', $request->sort);
+            foreach ($sorts as $sort) {
+                $params = explode(':', $sort);
+                $sortableFields = $this->fillable;
+                array_push($sortableFields, 'id');
+                if(in_array($params[0], $sortableFields)){
+                    $query->orderBy($params[0], $params[1]);
+                }
+                if(in_array($params[0], $this->sortableProperties)){
+                    // $query->orderBy($params[0], $params[1]);
+                    $query = "cast(properties->'$." . $params[0] ."' as float)". $params[1];
+                    $query->orderByRaw($query);
+
+                }
+             }
+        }
+
+    }
+
+
 }

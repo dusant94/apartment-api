@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ApartmentCreateRequest;
 use App\Http\Requests\ApartmentUpdateRequest;
+use App\Http\Resources\ApartmentCollection;
+use App\Models\Apartment;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ApartmentController extends Controller
 {
@@ -13,9 +16,11 @@ class ApartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $apartments = Apartment::SortAndOrderBy($request)->paginate(10);
+        $resource = new ApartmentCollection($apartments);
+        return $resource->response()->setStatusCode(Response::HTTP_OK);;
     }
 
     /**
