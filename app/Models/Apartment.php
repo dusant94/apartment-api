@@ -43,7 +43,7 @@ class Apartment extends Model
         $this->attributes['name'] = $value;
         $slug = Str::slug($value);
         $i = 1;
-        while(static::where('slug', $slug)->exist()){
+        while(static::where('slug', $slug)->exists()){
             $slug = $slug . "_" . $i;
         }
         $this->attributes['slug'] = $slug ;
@@ -61,15 +61,14 @@ class Apartment extends Model
                     $query->orderBy($params[0], $params[1]);
                 }
                 if(in_array($params[0], $this->sortableProperties)){
-                    // $query->orderBy($params[0], $params[1]);
-                    $query = "cast(properties->'$." . $params[0] ."' as float)". $params[1];
-                    $query->orderByRaw($query);
-
+                    $query->orderByRaw("cast(properties->'$." . $params[0] ."' as float)". $params[1]);
                 }
              }
         }
-
     }
 
+    public function scopeFilterBy($query, $request){
+
+    }
 
 }

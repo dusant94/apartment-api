@@ -6,6 +6,7 @@ use App\Http\Requests\ApartmentCreateRequest;
 use App\Http\Requests\ApartmentUpdateRequest;
 use App\Http\Resources\ApartmentCollection;
 use App\Models\Apartment;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -31,9 +32,14 @@ class ApartmentController extends Controller
      */
     public function store(ApartmentCreateRequest $request)
     {
-        //
+        try {
+            $inputs = $request->validated();
+            $apartment = Apartment::create($inputs);
+            return response()->json($apartment, Response::HTTP_CREATED);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -44,7 +50,13 @@ class ApartmentController extends Controller
      */
     public function update(ApartmentUpdateRequest $request, $id)
     {
-        //
+        try {
+            $inputs = $request->validated();
+            $apartment = Apartment::update($inputs);
+            return response()->json($apartment, Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
