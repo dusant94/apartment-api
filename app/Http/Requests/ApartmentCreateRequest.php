@@ -31,7 +31,7 @@ class ApartmentCreateRequest extends FormRequest
             'properties.size' => ['nullable', 'numeric'],
             'properties.balcony_size' => ['nullable', 'numeric'],
             'properties.location' => ['nullable', 'string'],
-            'category_id' => ['required', 'integer'],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
         ];
     }
 

@@ -21,7 +21,7 @@ class ApartmentController extends Controller
     {
         $apartments = Apartment::SortAndOrderBy($request)->paginate(10);
         $resource = new ApartmentCollection($apartments);
-        return $resource->response()->setStatusCode(Response::HTTP_OK);;
+        return $resource->response()->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -52,7 +52,8 @@ class ApartmentController extends Controller
     {
         try {
             $inputs = $request->validated();
-            $apartment = Apartment::update($inputs);
+            $apartment = Apartment::findOrFail($id);
+            $apartment = $apartment->update($inputs);
             return response()->json($apartment, Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
