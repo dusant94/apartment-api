@@ -14,6 +14,14 @@ class ApartmentResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'price' => $this->price,
+            'currency' => $this->currency,
+            'description' => $this->description,
+            'category_id' => $this->category_id,
+            'properties' => $this->properties,
+        ];
     }
 }
