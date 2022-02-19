@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::post('token', [RegisterController::class, 'getToken']);
 
 
@@ -25,21 +26,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-
     Route::post('/rate', [RateController::class, 'rate']);
+});
 
-    Route::group(['prefix' => '/apartment'], function () {
-        Route::get('/', [ApartmentController::class, 'index']);
-        Route::post('/', [ApartmentController::class, 'store']);
-        Route::put('/{id}', [ApartmentController::class, 'update']);
-        Route::delete('/{id}', [ApartmentController::class, 'destroy']);
-
-    });
-    Route::group(['prefix' => '/category'], function () {
-        Route::get('/', [CategoryController::class, 'index']);
-        Route::post('/', [CategoryController::class, 'store']);
-        Route::put('/{id}', [CategoryController::class, 'update']);
-        Route::delete('/{id}', [CategoryController::class, 'destroy']);
-    });
-
+Route::group(['prefix' => '/apartment'], function () {
+    Route::get('/', [ApartmentController::class, 'index']);
+    Route::post('/', [ApartmentController::class, 'store']);
+    Route::put('/{id}', [ApartmentController::class, 'update']);
+    Route::delete('/{id}', [ApartmentController::class, 'destroy']);
+});
+Route::group(['prefix' => '/category'], function () {
+    Route::get('/', [CategoryController::class, 'index']);
+    Route::post('/', [CategoryController::class, 'store']);
+    Route::put('/{id}', [CategoryController::class, 'update']);
+    Route::delete('/{id}', [CategoryController::class, 'destroy']);
 });
