@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Apartment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -49,7 +50,7 @@ class Apartment extends Model
 
     public function children_ids($category)
     {
-        $childrens = $category->children;
+        $childrens = $category->childrens;
 
         foreach ($childrens as $child) {
             array_push($this->category_ids, $child->id);
