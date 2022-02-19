@@ -31,7 +31,16 @@ class Apartment extends Model
         }'
     ];
 
-    public $properties_fields = ['size', 'balcony_size'];
+    protected $category_ids = [];
+
+    public function children_ids($category){
+        $childrens = $category->children;
+
+        foreach($childrens as $child){
+            array_push($this->category_ids, $child->id);
+            $this->children_ids($child);
+        }
+    }
 
     public function category()
     {
@@ -61,7 +70,7 @@ class Apartment extends Model
                 if (in_array($params[0], $sortableFields)) {
                     $query->orderBy($params[0], $params[1]);
                 }
-                if (in_array($params[0], $this->properties_fields)) {
+                if (in_array($params[0], ['size', 'balcony_size'])) {
                     $query->orderByRaw("cast(properties->'$." . $params[0] . "' as float)" . $params[1]);
                 }
             }
@@ -70,25 +79,35 @@ class Apartment extends Model
 
     public function scopeFilterBy($query, $request)
     {
-        if ($request->has('filters')) {
-            $filters = explode(',', $request->filters);
-            foreach ($filters as $filter) {
-                $params = explode(':', $filter);
-                if (in_array($params[0], $this->fillable)) {
-                    if (array_key_exists(2, $params)) {
-                        $query->where($params[0], $params[2], $params[1]);
-                    } else {
-                        $query->where($params[0], $params[1]);
-                    }
-                }
-                if (in_array($params[0], $this->properties_fields)) {
-                    if (array_key_exists(2, $params)) {
-                        $query->where('properties->' . $params[0], $params[2], $params[1]);
-                    } else {
-                        $query->where('properties->' . $params[0], $params[1]);
-                    }
-                }
-            }
+        if ($request->has('name')) {
+            $query->where('name', 'like', '%' . $request->get('name') . '%');
+        }
+        if ($request->has('price')) {
+            $query->where('price', $request->get('price'));
+        }
+        if ($request->has('currency')) {
+            $query->where('currency', $request->get('currency'));
+        }
+        if ($request->has('description')) {
+            $query->where('description', 'like', '%' . $request->get('description') . '%');
+        }
+        if ($request->has('rating')) {
+            $query->where('rating', '>=', $request->get('rating'));
+        }
+        if ($request->has('size')) {
+            $query->where('properties->size', '<=', $request->get('size'));
+        }
+        if ($request->has('balcony_size')) {
+            $query->where('properties->balcony_size', '<=', $request->get('balcony_size'));
+        }
+        if ($request->has('location')) {
+            $query->where('properties->location', $request->get('location'));
+        }
+        if ($request->has('category_id')) {
+            $category = Category::where('id', $request->get('category_id'))->first();
+            array_push($this->category_ids, $category->id);
+            $this->children_ids($category);
+            $query->whereIn('category_id', $this->category_ids);
         }
     }
 }

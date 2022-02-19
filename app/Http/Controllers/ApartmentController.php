@@ -24,7 +24,6 @@ class ApartmentController extends Controller
             $resource = new ApartmentCollection($apartments);
             return $resource->response()->setStatusCode(Response::HTTP_OK);
         } catch (Exception $e) {
-            dd($e);
             return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
