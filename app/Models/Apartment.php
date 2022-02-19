@@ -31,12 +31,25 @@ class Apartment extends Model
         }'
     ];
 
+    protected $defined_params = [
+        'name',
+        'price',
+        'currency',
+        'description',
+        'category_id',
+        'size',
+        'balcony_size',
+        'location',
+        'sort',
+    ];
+
     protected $category_ids = [];
 
-    public function children_ids($category){
+    public function children_ids($category)
+    {
         $childrens = $category->children;
 
-        foreach($childrens as $child){
+        foreach ($childrens as $child) {
             array_push($this->category_ids, $child->id);
             $this->children_ids($child);
         }
@@ -83,7 +96,8 @@ class Apartment extends Model
             $query->where('name', 'like', '%' . $request->get('name') . '%');
         }
         if ($request->has('price')) {
-            $query->where('price', $request->get('price'));
+            $params = explode(':', $request->get('price'));
+            $query->where('price', $params[1], $params[0]);
         }
         if ($request->has('currency')) {
             $query->where('currency', $request->get('currency'));
@@ -92,13 +106,16 @@ class Apartment extends Model
             $query->where('description', 'like', '%' . $request->get('description') . '%');
         }
         if ($request->has('rating')) {
-            $query->where('rating', '>=', $request->get('rating'));
+            $params = explode(':', $request->get('rating'));
+            $query->where('rating', $params[1], $params[0]);
         }
         if ($request->has('size')) {
-            $query->where('properties->size', '<=', $request->get('size'));
+            $params = explode(':', $request->get('size'));
+            $query->where('properties->size', $params[1], $params[0]);
         }
         if ($request->has('balcony_size')) {
-            $query->where('properties->balcony_size', '<=', $request->get('balcony_size'));
+            $params = explode(':', $request->get('balcony_size'));
+            $query->where('properties->balcony_size', $params[1], $params[0]);
         }
         if ($request->has('location')) {
             $query->where('properties->location', $request->get('location'));
@@ -108,6 +125,11 @@ class Apartment extends Model
             array_push($this->category_ids, $category->id);
             $this->children_ids($category);
             $query->whereIn('category_id', $this->category_ids);
+        }
+        foreach ($request->all() as $key => $param) {
+            if (!in_array($key, $this->defined_params)) {
+                $query->where('properties->' . $key, $param);
+            }
         }
     }
 }
