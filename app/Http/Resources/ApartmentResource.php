@@ -14,14 +14,25 @@ class ApartmentResource extends JsonResource
      */
     public function toArray($request)
     {
+        $properties = $this->formatProperties($request, $this->properties);
         return [
             'id' => $this->id,
             'name' => $this->name,
             'price' => $this->price,
             'currency' => $this->currency,
-            'description' => $this->description,
+            'description' => $this->when($request->has('description'), $this->description),
             'category_id' => $this->category_id,
-            'properties' => $this->properties,
+            'properties' => $properties,
         ];
+    }
+
+    public function formatProperties($request, $properties){
+        if(!$request->has('size')){
+            unset($properties['size']);
+        }
+        if(!$request->has('balcony_size')){
+            unset($properties['balcony_size']);
+        }
+        return $properties;
     }
 }
