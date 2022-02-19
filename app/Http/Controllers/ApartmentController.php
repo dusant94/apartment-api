@@ -9,6 +9,7 @@ use App\Models\Apartment;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Http;
 
 class ApartmentController extends Controller
 {
@@ -24,7 +25,6 @@ class ApartmentController extends Controller
             $resource = new ApartmentCollection($apartments);
             return $resource->response()->setStatusCode(Response::HTTP_OK);
         } catch (Exception $e) {
-            dd($e);
             return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
