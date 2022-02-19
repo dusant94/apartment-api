@@ -43,7 +43,7 @@ class SubscriptionNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)->markdown('emails.subscription',['apartment' => $this->apartment])
-            ->from(config('app.admin_email'))
+            ->from(config('mail.from.address'))
             ->subject('Price changed - ' . config('app.name'));
     }
 
