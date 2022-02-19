@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,11 +19,14 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('token', [RegisterController::class, 'getToken']);
 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => []], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    Route::post('/rate', [RateController::class, 'rate']);
 
     Route::group(['prefix' => '/apartment'], function () {
         Route::get('/', [ApartmentController::class, 'index']);

@@ -17,6 +17,7 @@ class Apartment extends Model
         'description',
         'properties',
         'category_id',
+        'rating',
     ];
 
     protected $casts = [
@@ -34,6 +35,7 @@ class Apartment extends Model
     protected $defined_params = [
         'name',
         'price',
+        'rating',
         'currency',
         'description',
         'category_id',
@@ -131,5 +133,10 @@ class Apartment extends Model
                 $query->where('properties->' . $key, $param);
             }
         }
+    }
+    public function updateRating($apartment){
+        $apartment_rates = Rate::where('apartment_id', $apartment->id)->pluck('rating')->toArray();
+        $rating = array_sum($apartment_rates) / count($apartment_rates);
+        $apartment->update(['rating'=> $rating]);
     }
 }
