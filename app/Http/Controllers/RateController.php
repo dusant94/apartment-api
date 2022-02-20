@@ -14,10 +14,6 @@ class RateController extends Controller
 
     public function rate(Request $request){
         try{
-            $request->validate([
-                'rating' => ['required', 'integer', 'between:0,5'],
-                'apartment_id' => ['required', 'integer'],
-            ]);
             $apartment = Apartment::findOrFail($request['apartment_id']);
             $user = Auth::user();
             $inputs['rating'] = $request['rating'];

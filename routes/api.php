@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('/rate', [RateController::class, 'rate']);
+    Route::post('/rate', [RateController::class, 'rate'])->middleware('only_one_rate');
     Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
 });
 
