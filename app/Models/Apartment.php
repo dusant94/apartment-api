@@ -82,7 +82,7 @@ class Apartment extends Model
         if ($request->has('sort')) {
             $sorts = explode(',', $request->sort);
             $sortableFields = $this->fillable;
-            array_push($sortableFields, 'id');
+            array_push($sortableFields, ['id', 'created_at']);
             foreach ($sorts as $sort) {
                 $params = explode(':', $sort);
                 if (in_array($params[0], $sortableFields)) {
@@ -137,6 +137,7 @@ class Apartment extends Model
             }
         }
     }
+
     public function updateRating($apartment)
     {
         $apartment_rates = Rate::where('apartment_id', $apartment->id)->pluck('rating')->toArray();

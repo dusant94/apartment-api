@@ -13,10 +13,97 @@ use Illuminate\Support\Facades\Http;
 
 class ApartmentController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *     path="/apartment",
+     *     description="Get List of apartments",
+     *     tags={"Apartments"},
+     *     @OA\Parameter(
+     *          name="sort",
+     *          description="Sorting parameters",
+     *          required=false,
+     *          in="query",
+     *          example="name:asc,price:desc,created_at:desc",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="name",
+     *          description="Filter Apartment Name",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="price",
+     *          description="Filter Apartment price",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="number"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="currency",
+     *          description="Filter Currency of price",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="size",
+     *          description="Filter by size",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="numeric"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="balcony_size",
+     *          description="Filter by balcony_size",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="numeric"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="location",
+     *          description="Filter by location",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="description",
+     *          description="Filter by Description",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="text"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="category_id",
+     *          description="Filter by ID category_id ",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(response="200", description="Created", @OA\MediaType(mediaType="application/json")),
+     *     @OA\Response(response=500,description="Internal server error"),
+     * )
      */
     public function index(Request $request)
     {
@@ -30,10 +117,69 @@ class ApartmentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/apartment",
+     *     description="Get List of apartments",
+     *     tags={"Apartments"},
+     *     @OA\Parameter(
+     *          name="name",
+     *          description="Apartment Name",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="price",
+     *          description="Apartment price",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="number"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="currency",
+     *          description="Currency of price",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="properties",
+     *          description="Apartment Properties",
+     *          required=false,
+     *          in="query",
+     *          example="{'size':'numeric','balcony_size':'numeric','location':'string'}",
+     *          @OA\Schema(
+     *              type="json"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="description",
+     *          description="Apartment Description",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="text"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="category_id",
+     *          description="ID of category to which  apartment belongs",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(response="201", description="Created", @OA\MediaType(mediaType="application/json")),
+     *     @OA\Response(response=500,description="Internal server error"),
+     *     @OA\Response(response=422,description="Unprocessable Entity - validation failed"),
+     * )
      */
     public function store(ApartmentCreateRequest $request)
     {
@@ -46,12 +192,80 @@ class ApartmentController extends Controller
         }
     }
 
+
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Put(
+     *     path="/apartment/{id}",
+     *     description="Get List of apartments",
+     *     tags={"Apartments"},
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="Apartment id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="name",
+     *          description="Apartment Name",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="price",
+     *          description="Apartment price",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="number"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="currency",
+     *          description="Currency of price",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="properties",
+     *          description="Apartment Properties",
+     *          required=false,
+     *          in="query",
+     *          example="{'size':'numeric','balcony_size':'numeric','location':'string'}",
+     *          @OA\Schema(
+     *              type="json"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="description",
+     *          description="Apartment Description",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="text"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="category_id",
+     *          description="ID of category to which  apartment belongs ",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(response="200", description="Created", @OA\MediaType(mediaType="application/json")),
+     *     @OA\Response(response=500,description="Internal server error"),
+     *     @OA\Response(response=422,description="Unprocessable Entity - validation failed"),
+     * )
      */
     public function update(ApartmentUpdateRequest $request, $id)
     {
@@ -66,10 +280,22 @@ class ApartmentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Delete(
+     *     path="/apartment/{id}",
+     *     description="Delete apartment",
+     *     tags={"Apartments"},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Apartment id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(response="200", description="Deleted", @OA\MediaType(mediaType="application/json")),
+     *     @OA\Response(response=500,description="Internal server error"),
+     * )
      */
     public function destroy($id)
     {
