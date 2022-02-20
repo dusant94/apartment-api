@@ -66,10 +66,12 @@ class Apartment extends Model
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;
-        $slug = Str::slug($value);
+        $first_slug = Str::slug($value);
+        $slug = $first_slug;
         $i = 1;
         while (static::where('slug', $slug)->exists()) {
-            $slug = $slug . "_" . $i;
+            $slug = $first_slug . "_" . $i;
+            $i++;
         }
         $this->attributes['slug'] = $slug;
     }
@@ -135,9 +137,10 @@ class Apartment extends Model
             }
         }
     }
-    public function updateRating($apartment){
+    public function updateRating($apartment)
+    {
         $apartment_rates = Rate::where('apartment_id', $apartment->id)->pluck('rating')->toArray();
         $rating = array_sum($apartment_rates) / count($apartment_rates);
-        $apartment->update(['rating'=> $rating]);
+        $apartment->update(['rating' => $rating]);
     }
 }

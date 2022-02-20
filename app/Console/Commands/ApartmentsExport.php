@@ -56,7 +56,7 @@ class ApartmentsExport extends Command
 
             foreach ($apartments as $apartment) {
                 $apartment->properties = json_encode($apartment->properties);
-                fputcsv($file, $apartment->toArray(), ';', '"', '\\');
+                fputcsv($file, $apartment->toArray());
                 $this->output->progressAdvance();
             }
             fclose($file);
@@ -66,6 +66,7 @@ class ApartmentsExport extends Command
             return Command::SUCCESS;
         } catch (Exception $e) {
             Log::info('Failed export: ' . $e->getMessage());
+            $this->info('Failed export: ' . $e->getMessage());
             return Command::FAILURE;
         }
     }
