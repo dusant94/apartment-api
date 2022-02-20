@@ -18,7 +18,7 @@ class ApartmentController extends Controller
      * @OA\Get(
      *     path="/apartment",
      *     description="Get List of apartments",
-     *     tags={"Apartments"},
+     *     tags={"Apartment"},
      *     @OA\Parameter(
      *          name="sort",
      *          description="Sorting parameters",
@@ -62,7 +62,7 @@ class ApartmentController extends Controller
      *          required=false,
      *          in="query",
      *          @OA\Schema(
-     *              type="numeric"
+     *              type="number"
      *          )
      *      ),
      *      @OA\Parameter(
@@ -71,7 +71,7 @@ class ApartmentController extends Controller
      *          required=false,
      *          in="query",
      *          @OA\Schema(
-     *              type="numeric"
+     *              type="number"
      *          )
      *      ),
      *      @OA\Parameter(
@@ -119,8 +119,8 @@ class ApartmentController extends Controller
     /**
      * @OA\Post(
      *     path="/apartment",
-     *     description="Get List of apartments",
-     *     tags={"Apartments"},
+     *     description="Create apartment",
+     *     tags={"Apartment"},
      *     @OA\Parameter(
      *          name="name",
      *          description="Apartment Name",
@@ -153,7 +153,7 @@ class ApartmentController extends Controller
      *          description="Apartment Properties",
      *          required=false,
      *          in="query",
-     *          example="{'size':'numeric','balcony_size':'numeric','location':'string'}",
+     *          example="{'size':'number','balcony_size':'number','location':'string'}",
      *          @OA\Schema(
      *              type="json"
      *          )
@@ -196,8 +196,8 @@ class ApartmentController extends Controller
     /**
      * @OA\Put(
      *     path="/apartment/{id}",
-     *     description="Get List of apartments",
-     *     tags={"Apartments"},
+     *     description="Update apartment",
+     *     tags={"Apartment"},
      *     @OA\Parameter(
      *          name="id",
      *          description="Apartment id",
@@ -239,7 +239,7 @@ class ApartmentController extends Controller
      *          description="Apartment Properties",
      *          required=false,
      *          in="query",
-     *          example="{'size':'numeric','balcony_size':'numeric','location':'string'}",
+     *          example="{'size':'number','balcony_size':'number','location':'string'}",
      *          @OA\Schema(
      *              type="json"
      *          )
@@ -262,7 +262,7 @@ class ApartmentController extends Controller
      *              type="integer"
      *          )
      *      ),
-     *     @OA\Response(response="200", description="Created", @OA\MediaType(mediaType="application/json")),
+     *     @OA\Response(response="200", description="Succes", @OA\MediaType(mediaType="application/json")),
      *     @OA\Response(response=500,description="Internal server error"),
      *     @OA\Response(response=422,description="Unprocessable Entity - validation failed"),
      * )
@@ -283,7 +283,7 @@ class ApartmentController extends Controller
      * @OA\Delete(
      *     path="/apartment/{id}",
      *     description="Delete apartment",
-     *     tags={"Apartments"},
+     *     tags={"Apartment"},
      *      @OA\Parameter(
      *          name="id",
      *          description="Apartment id",

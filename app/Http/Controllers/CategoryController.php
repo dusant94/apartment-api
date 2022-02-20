@@ -13,22 +13,53 @@ use Illuminate\Http\Response;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *     path="/category",
+     *     description="Get List of categories",
+     *     tags={"Category"},
+     *     @OA\Response(response="200", description="Created", @OA\MediaType(mediaType="application/json")),
+     *     @OA\Response(response=500,description="Internal server error"),
+     * )
      */
     public function index()
     {
-        $categories = Category::paginate(10);
-        $resource = new CategoryCollection($categories);
-        return $resource->response()->setStatusCode(Response::HTTP_OK);
+        try {
+            $categories = Category::paginate(10);
+            $resource = new CategoryCollection($categories);
+            return $resource->response()->setStatusCode(Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+
+   /**
+     * @OA\Post(
+     *     path="/category",
+     *     description="Create category",
+     *     tags={"Category"},
+     *     @OA\Parameter(
+     *          name="name",
+     *          description="Category Name",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="parent_id",
+     *          description="ID of parent category ",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(response="200", description="Success", @OA\MediaType(mediaType="application/json")),
+     *     @OA\Response(response=500,description="Internal server error"),
+     *     @OA\Response(response=422,description="Unprocessable Entity - validation failed"),
+     * )
      */
     public function store(CategoryCreateRequest $request)
     {
@@ -42,12 +73,42 @@ class CategoryController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+   /**
+     * @OA\Put(
+     *     path="/category/{id}",
+     *     description="Update category",
+     *     tags={"Category"},
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="Category id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="name",
+     *          description="Category Name",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="parent_id",
+     *          description="ID of parent category ",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(response="200", description="Success", @OA\MediaType(mediaType="application/json")),
+     *     @OA\Response(response=500,description="Internal server error"),
+     *     @OA\Response(response=422,description="Unprocessable Entity - validation failed"),
+     * )
      */
     public function update(CategoryUpdateRequest $request, $id)
     {
@@ -62,10 +123,22 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Delete(
+     *     path="/category/{id}",
+     *     description="Delete category",
+     *     tags={"Category"},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Category id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(response="200", description="Deleted", @OA\MediaType(mediaType="application/json")),
+     *     @OA\Response(response=500,description="Internal server error"),
+     * )
      */
     public function destroy($id)
     {

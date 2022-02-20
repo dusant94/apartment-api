@@ -11,10 +11,33 @@ use Illuminate\Support\Str;
 
 class RegisterController extends BaseController
 {
-    /**
-     * Register api
-     *
-     * @return \Illuminate\Http\Response
+
+   /**
+     * @OA\Post(
+     *     path="/token",
+     *     description="Rate apartment",
+     *     tags={"Authentication"},
+     *     @OA\Parameter(
+     *          name="email",
+     *          description="Email",
+     *          required=true,
+     *          in="query",
+     *          example="example@examle.com",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="password",
+     *          description="Password",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Response(response=422,description="Unprocessable Entity - validation failed"),
+     * )
      */
     public function getToken(Request $request)
     {

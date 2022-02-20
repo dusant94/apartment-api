@@ -14,6 +14,57 @@ use Illuminate\Support\Facades\Storage;
 class RateController extends Controller
 {
 
+
+
+   /**
+     * @OA\Post(
+     *     path="/rate",
+     *     description="Rate apartment",
+     *     tags={"Rate"},
+     *     @OA\Parameter(
+     *          name="rating",
+     *          description="Apartment Rating (must be between 0 and 5)",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="apartment_id",
+     *          description="ID of apartment ",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *    @OA\Parameter(
+     *          name="Accept",
+     *          description="application/json",
+     *          required=true,
+     *          in="header",
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="Authorization",
+     *          description="Token for authorization",
+     *          required=true,
+     *          in="header",
+     *          example="Bearer ...",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Response(response="201", description="Success", @OA\MediaType(mediaType="application/json")),
+     *     @OA\Response(response=500,description="Internal server error"),
+     *     @OA\Response(response=401,description="Unauthenticated"),
+     *     @OA\Response(response=422,description="Unprocessable Entity - validation failed"),
+     * )
+     */
     public function rate(Request $request){
         try{
             $inputs = $request->validate([

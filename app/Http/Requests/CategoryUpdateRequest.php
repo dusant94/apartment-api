@@ -25,7 +25,7 @@ class CategoryUpdateRequest extends FormRequest
     {
         return [
             'name' => ['nullable', 'string'],
-            'category_id' => ['nullable', 'integer'],
+            'parent_id' => ['nullable', 'integer'],
         ];
     }
 }
