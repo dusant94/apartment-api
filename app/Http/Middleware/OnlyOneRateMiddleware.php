@@ -19,11 +19,6 @@ class OnlyOneRateMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $request->validate([
-            'rating' => ['required', 'integer', 'between:0,5'],
-            'apartment_id' => ['required', 'integer'],
-        ]);
-
         if(!Rate::where('user_id', Auth::user()->id)->where('apartment_id', $request->apartment_id)->exists()){
             return $next($request);
         }
