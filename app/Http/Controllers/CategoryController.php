@@ -115,8 +115,8 @@ class CategoryController extends Controller
         try {
             $inputs = $request->validated();
             $category = Category::findOrFail($id);
-            $category = $category->update($inputs);
-            return response()->json($category, Response::HTTP_CREATED);
+            $status = $category->update($inputs);
+            return response()->json($status, Response::HTTP_CREATED);
         } catch (Exception $e) {
             return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

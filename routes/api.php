@@ -19,12 +19,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('token', [RegisterController::class, 'getToken']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('token', [RegisterController::class, 'getToken']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/rate', [RateController::class, 'rate'])->middleware('only_one_rate');

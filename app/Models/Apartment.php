@@ -48,6 +48,16 @@ class Apartment extends Model
 
     protected $category_ids = [];
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function rates()
+    {
+        return $this->hasMany(Rate::class);
+    }
+
     public function children_ids($category)
     {
         $childrens = $category->childrens;
@@ -56,11 +66,6 @@ class Apartment extends Model
             array_push($this->category_ids, $child->id);
             $this->children_ids($child);
         }
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
     }
 
     public function setNameAttribute($value)
@@ -140,7 +145,7 @@ class Apartment extends Model
 
     public function updateRating($apartment)
     {
-        $apartment_rates = Rate::where('apartment_id', $apartment->id)->pluck('rating')->toArray();
+        $apartment_rates = $apartment->rates()->pluck('rating')->toArray();
         $rating = array_sum($apartment_rates) / count($apartment_rates);
         $apartment->update(['rating' => $rating]);
     }

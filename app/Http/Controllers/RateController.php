@@ -23,7 +23,7 @@ class RateController extends Controller
      *     tags={"Rate"},
      *     @OA\Parameter(
      *          name="rating",
-     *          description="Apartment Rating (must be between 0 and 5)",
+     *          description="Apartment Rating (must be between 1 and 5)",
      *          required=true,
      *          in="query",
      *          @OA\Schema(
@@ -68,7 +68,7 @@ class RateController extends Controller
     public function rate(Request $request){
         try{
             $inputs = $request->validate([
-                'rating' => ['required', 'integer', 'between:0,5'],
+                'rating' => ['required', 'integer', 'between:1,5'],
                 'apartment_id' => ['required', 'integer'],
             ]);
             $apartment = Apartment::findOrFail($request['apartment_id']);

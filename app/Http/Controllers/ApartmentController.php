@@ -101,6 +101,16 @@ class ApartmentController extends Controller
      *              type="integer"
      *          )
      *      ),
+     *     @OA\Parameter(
+     *          name="CURRENCY",
+     *          description="Requested currency ISO3",
+     *          required=false,
+     *          in="header",
+     *          example="BAM",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
      *     @OA\Response(response="200", description="Created", @OA\MediaType(mediaType="application/json")),
      *     @OA\Response(response=500,description="Internal server error"),
      * )
@@ -272,8 +282,8 @@ class ApartmentController extends Controller
         try {
             $inputs = $request->validated();
             $apartment = Apartment::findOrFail($id);
-            $apartment = $apartment->update($inputs);
-            return response()->json($apartment, Response::HTTP_OK);
+            $status = $apartment->update($inputs);
+            return response()->json($status, Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

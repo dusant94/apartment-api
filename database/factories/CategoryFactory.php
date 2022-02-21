@@ -15,9 +15,8 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => Str::random(10),
+            'name' =>  $this->faker->unique->name,
             'parent_id' => null,
-
         ];
     }
 }
