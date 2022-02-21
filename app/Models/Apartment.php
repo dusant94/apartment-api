@@ -143,7 +143,7 @@ class Apartment extends Model
         }
     }
 
-    public function updateRating($apartment)
+    public function updateRating(Apartment $apartment)
     {
         $apartment_rates = $apartment->rates()->pluck('rating')->toArray();
         $rating = array_sum($apartment_rates) / count($apartment_rates);

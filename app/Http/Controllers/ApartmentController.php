@@ -101,16 +101,6 @@ class ApartmentController extends Controller
      *              type="integer"
      *          )
      *      ),
-     *     @OA\Parameter(
-     *          name="CURRENCY",
-     *          description="Requested currency ISO3",
-     *          required=false,
-     *          in="header",
-     *          example="BAM",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
      *     @OA\Response(response="200", description="Created", @OA\MediaType(mediaType="application/json")),
      *     @OA\Response(response=500,description="Internal server error"),
      * )
@@ -118,7 +108,7 @@ class ApartmentController extends Controller
     public function index(Request $request)
     {
         try {
-            $apartments = Apartment::FilterBy($request)->SortAndOrderBy($request)->paginate(10);
+            $apartments = Apartment::SortAndOrderBy($request)->FilterBy($request)->paginate(10);
             $resource = new ApartmentCollection($apartments);
             return $resource->response()->setStatusCode(Response::HTTP_OK);
         } catch (Exception $e) {
@@ -282,8 +272,8 @@ class ApartmentController extends Controller
         try {
             $inputs = $request->validated();
             $apartment = Apartment::findOrFail($id);
-            $status = $apartment->update($inputs);
-            return response()->json($status, Response::HTTP_OK);
+            $apartment = $apartment->update($inputs);
+            return response()->json($apartment, Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -310,8 +300,8 @@ class ApartmentController extends Controller
     public function destroy($id)
     {
         try {
-            $status = Apartment::findOrFail($id)->delete();
-            return response()->json($status, Response::HTTP_OK);
+            $apartment = Apartment::findOrFail($id)->delete();
+            return response()->json($apartment, Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

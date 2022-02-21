@@ -108,6 +108,16 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "CURRENCY",
+                        "in": "header",
+                        "description": "Requested currency ISO3",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "BAM"
                     }
                 ],
                 "responses": {
@@ -472,7 +482,7 @@
                     {
                         "name": "rating",
                         "in": "query",
-                        "description": "Apartment Rating (must be between 0 and 5)",
+                        "description": "Apartment Rating (must be between 1 and 5)",
                         "required": true,
                         "schema": {
                             "type": "integer"
