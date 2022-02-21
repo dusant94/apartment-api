@@ -25,7 +25,7 @@ class CategoryCreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'parent_id' => ['nullable', 'integer'],
+            'parent_id' => ['sometimes', 'integer'],
         ];
     }
 }

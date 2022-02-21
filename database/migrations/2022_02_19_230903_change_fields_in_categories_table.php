@@ -27,8 +27,9 @@ class ChangeFieldsInCategoriesTable extends Migration
     public function down()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->integer('parent_id')->nullable()->change();
-            $table->dropForeign('parent_id');
-        });
+            $table->dropForeign(['parent_id']);
+            $table->dropColumn('parent_id');
+         });
+
     }
 }

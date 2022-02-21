@@ -24,8 +24,8 @@ class CategoryUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['nullable', 'string'],
-            'parent_id' => ['nullable', 'integer'],
+            'name' => ['sometimes', 'string'],
+            'parent_id' => ['sometimes', 'integer'],
         ];
     }
 }

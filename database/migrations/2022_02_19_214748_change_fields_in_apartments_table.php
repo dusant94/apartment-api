@@ -27,8 +27,8 @@ class ChangeFieldsInApartmentsTable extends Migration
     public function down()
     {
         Schema::table('apartments', function (Blueprint $table) {
-            $table->integer('category_id')->change();
-            $table->dropForeign('category_id');
-        });
+            $table->dropForeign(['category_id']);
+            $table->dropColumn('category_id');
+         });
     }
 }

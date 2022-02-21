@@ -19,6 +19,8 @@
 
  9. - `php artisan queue:work`
 
+ 10. - `php artisan l5-swagger:generate`
+
 
 ### Commands for export and inport of apartments
 

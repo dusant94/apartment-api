@@ -23,6 +23,7 @@ class ApartmentResource extends JsonResource
             'description' => $this->when($request->has('description'), $this->description),
             'category_id' => $this->category_id,
             'properties' => $properties,
+            'rating' => $this->rating,
         ];
     }
 
